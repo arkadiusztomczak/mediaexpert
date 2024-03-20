@@ -44,7 +44,7 @@ class ObjectOperations {
     }
 
     public function search($number = '', $date = '', $current_status = '', $past_status = '') {
-        $sql = "SELECT objects.* FROM objects LEFT JOIN status_history ON objects.id = status_history.object_id";
+        $sql = "SELECT objects.id, objects.number, objects.status AS 'current status', objects.created_at FROM objects LEFT JOIN status_history ON objects.id = status_history.object_id";
         $params = [];
         $conditions = [];
 
@@ -61,7 +61,7 @@ class ObjectOperations {
             $params[] = $current_status;
         }
         if ($past_status != '') {
-            $conditions[] = "status_history.status_name = ?";
+            $conditions[] = "status_history.status = ?";
             $params[] = $past_status;
         }
 

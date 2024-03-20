@@ -60,6 +60,21 @@ switch ($resource) {
                 break;
         }
         break;
+
+    case 'search':
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        $number = $data['number'] ?? '';
+        $date = $data['date'] ?? '';
+        $current_status = $data['current_status'] ?? '';
+        $past_status = $data['past_status'] ?? '';
+
+        if($number || $date || $current_status || $past_status)
+            $response = ['object' => $objectOps->search($number, $date, $current_status, $past_status)];
+         else {
+            $response = ['message' => 'Nothing found'];
+        }
+        break;
     default:
         $response = ['message' => 'Bad Request'];
         break;
